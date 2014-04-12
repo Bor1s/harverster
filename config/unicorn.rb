@@ -1,10 +1,10 @@
 # set path to app that will be used to configure unicorn,
 # note the trailing slash in this example
-sinatra_app_dir = "/home/playhard/harvester/current"
+sinatra_app_dir = "/home/playhard/harvester"
 socket_file = "/tmp/harvester_unicorn.sock"
 
 worker_processes 2
-working_directory sinatra_app_dir
+working_directory "#{sinatra_app_dir}/current"
 
 timeout 30
 
