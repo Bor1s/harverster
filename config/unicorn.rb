@@ -16,5 +16,5 @@ listen socket_file, :backlog => 64
 pid "#{sinatra_app_dir}/shared/tmp/pids/unicorn.pid"
 
 # Set log file paths
-stderr_path "#{sinatra_app_dir}/log/unicorn.stderr.log"
-stdout_path "#{sinatra_app_dir}/log/unicorn.stdout.log"
+stderr_path "#{sinatra_app_dir}/current/log/unicorn.stderr.log"
+stdout_path "#{sinatra_app_dir}/current/log/unicorn.stdout.log"
