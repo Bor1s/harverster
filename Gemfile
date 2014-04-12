@@ -13,6 +13,7 @@ end
 group :development do
   gem 'thin'
   gem 'capistrano'
+  gem 'capistrano-bundler', '~> 1.1.2'
 end
 
 group :production do
