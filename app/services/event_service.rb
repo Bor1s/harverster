@@ -1,15 +1,15 @@
 class EventService
   MAP = %Q{
     function() {
-      emit(this.beginning_at.getUTCDate() + "/" + (this.beginning_at.getUTCMonth() + 1), { amount: 1});
+      emit(this.beginning_at.getUTCDate() + "/" + (this.beginning_at.getUTCMonth() + 1), this._id);
     }
   }
 
   REDUCE = %Q{
     function(key, values) {
-      var result = { amount: 0 };
+      var result = { events: [] };
       values.forEach(function(value) {
-        result.amount += 1;
+        result.events.push(value);
       });
       return result;
     }
@@ -17,14 +17,16 @@ class EventService
 
   class << self
     def daily_events_amount
-      output = Event.map_reduce(MAP, REDUCE).out(inline: true).map {|document| document}.sort_by do |i|
-        -i['value']['amount']
-      end
+      output = Event.map_reduce(MAP, REDUCE).out(inline: true).map {|document| document}
 
       result = {}
 
       output.each do |hash|
-        result[hash['_id']] = hash['value']['amount']
+        if hash['value'].is_a?(Hash)
+          result[hash['_id']] = hash['value']['events']
+        else
+          result[hash['_id']] = [hash['value']]
+        end
       end
 
       result
